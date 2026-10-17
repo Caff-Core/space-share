@@ -12,6 +12,12 @@ Tracks execution of [`FILE_SHARING_AGENT_PLAN.md`](./FILE_SHARING_AGENT_PLAN.md)
 - Record blockers in [Known blockers](#known-blockers) rather than silently skipping a task.
 - Keep the repository buildable at the end of every phase.
 
+## Repository conventions
+
+- **Branches:** [Conventional Branch](https://conventionalbranch.org/) names: `feature/`, `bugfix/`, `hotfix/`, `release/`, `chore/` + lowercase hyphenated description (e.g. `feature/pairing-qr`). No AI-tool prefixes.
+- **Commits:** Conventional Commits, one commit per notable change. No co-author trailers.
+- **Versioning:** Semantic Versioning `x.y.z`, bumped after each notable change or bug fix: patch for fixes, minor for features, major for breaking protocol/API changes. Pre-1.0 while in MVP. One source of truth (root `package.json`) synced to `tauri.conf.json`, `Cargo.toml` and `app.json`; the protocol version (`protocol-v1`) is versioned separately from the app version.
+
 ## Scope for this track
 
 | Item | Decision |
@@ -152,6 +158,7 @@ Goal: reproducible workspace with shared contracts and app shells (plan §5, §9
 - [ ] Android native types checked against the same fixtures
 - [ ] CI: typecheck, lint, unit tests, `cargo fmt --check`, `cargo clippy -D warnings`, `cargo test`
 - [ ] Lockfiles committed; fresh clone → install → build verified
+- [ ] App version set to `0.1.0`; version-sync script keeps `package.json`, `tauri.conf.json`, `Cargo.toml` and `app.json` (`version` + Android `versionCode`) aligned; CI fails on mismatch
 
 ### Exit gate
 
@@ -313,7 +320,7 @@ Goal: installable artifacts published on GitHub Releases.
 - [ ] SHA-256 checksums file published with artifacts
 - [ ] `CHANGELOG.md` and release notes with known limitations and supported platforms
 - [ ] `platform-support.md` final for this release
-- [ ] Tag `v0.1.0` and publish GitHub Release
+- [ ] `release/vX.Y.Z` branch; tag current SemVer version and publish GitHub Release
 
 ### Exit gate
 
