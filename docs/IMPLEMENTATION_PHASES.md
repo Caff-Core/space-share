@@ -57,41 +57,44 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 - [x] Node.js installed (v24.15.0)
 - [x] pnpm installed (12.14.0, `~/.local/share/pnpm/bin`; ensure it is on `PATH` for non-login shells and CI)
 - [x] Rust toolchain installed (rustc 1.97.0, cargo 1.97.0)
-- [x] Java JDK installed (OpenJDK 25.0.4.1). Verify compatibility with the Gradle/AGP version Expo pins; install JDK 17 if required.
+- [x] Java JDK installed (OpenJDK 21 and 25). `JAVA_HOME` set to JDK 21 for Android Gradle builds.
 - [x] Android SDK present (platforms 34, 35, 36.1; build-tools; cmdline-tools; emulator)
-- [x] Android NDK present (30.0.16138531). Verify against the NDK version required by Expo/React Native.
+- [ ] Android NDK 27.1.12297006 installed (pinned by React Native 0.88 / Expo SDK 58). Note: `ndk/30.0.16138531` exists but is an empty directory, not a usable install.
 - [x] `adb` installed (1.0.41)
-- [ ] `ANDROID_HOME` / `ANDROID_SDK_ROOT` and `JAVA_HOME` exported in shell profile
-- [ ] Tauri Linux prerequisites installed: `webkit2gtk4.1-devel`, `libappindicator-gtk3-devel`, `librsvg2-devel`, `openssl-devel` (present), plus `curl wget file` and the C toolchain group (see Tauri prerequisites docs)
-- [ ] `rpm-build` installed for `.rpm` bundling; `dpkg`/`fakeroot` available for `.deb` if Tauri needs them on Fedora
+- [x] `ANDROID_HOME` / `ANDROID_SDK_ROOT` and `JAVA_HOME` exported in `~/.bashrc`; pnpm added to `~/.profile` for login shells
+- [x] Tauri Linux prerequisites installed: `webkit2gtk4.1-devel`, `libappindicator-gtk3-devel`, `librsvg2-devel`, `openssl-devel`
+- [x] `rpm-build`, `dpkg` and `fakeroot` installed for `.rpm`/`.deb` bundling
 - [ ] Rust components: `rustfmt`, `clippy`; Android Rust targets only if the mobile native module uses Rust (decided in Phase 2)
 - [ ] `cargo install tauri-cli` (or use `@tauri-apps/cli` via pnpm) at a pinned version
 
 ### Devices
 
-- [ ] Physical Android phone in developer mode, USB debugging enabled, visible in `adb devices`
+- [x] Physical Android phone in developer mode, USB debugging enabled, visible in `adb devices` (Samsung SM-A366B, serial RZCY504DDXT)
 - [ ] Second Android device (physical preferred) available for Android ↔ Android tests
 - [ ] Phone and host on the same Wi-Fi with no client isolation; host firewall rule documented for the listener port
 
 ### Repository bootstrap
 
-- [ ] `git init`, `.gitignore` (node_modules, target, build outputs, `.env*`, keystores)
-- [ ] Remote repository created on GitHub
-- [ ] Root `README.md` with project summary and link to the spec and this tracker
-- [ ] `docs/platform-support.md` stub (plan §11.7)
-- [ ] `docs/decisions/` folder with ADR template (`0000-template.md`)
-- [ ] CI skeleton workflow (checkout, pnpm install, placeholder job) running green on push
+- [x] `git init`, `.gitignore` (node_modules, target, build outputs, `.env*`, keystores) (commit 243a326)
+- [ ] Remote repository created on GitHub (blocked: `gh` auth for account Caff-Core is invalid; run `gh auth login`)
+- [x] Root `README.md` with project summary and link to the spec and this tracker
+- [x] `docs/platform-support.md` stub (plan §11.7)
+- [x] `docs/decisions/` folder with ADR template (`0000-template.md`)
+- [ ] CI skeleton workflow (checkout, pnpm install, placeholder job) running green on push (file committed; needs remote)
 
 ### Exit gate
 
 - [ ] `pnpm`, `cargo`, `adb` and `java` all work from a non-login shell
-- [ ] A throwaway `create-tauri-app` builds and opens a window on the host (then deleted)
+- [x] A throwaway `create-tauri-app` builds and opens a window on the host. Window visibility pending user visual confirmation; scratch app removed at end of Phase 0.
 - [ ] A throwaway Expo development build installs and runs on the physical phone (then deleted)
 - [ ] First commit pushed and CI skeleton passes
 
 ### Evidence log
 
 - 2026-10-17: Toolchain inventory taken on Fedora 43 (Linux 7.2.6). Node 24.15.0, pnpm 12.14.0, Rust 1.97.0, OpenJDK 25.0.4.1, Android SDK + NDK 30.0.16138531, adb 1.0.41. Not installed: webkit2gtk4.1-devel, libappindicator-gtk3-devel, librsvg2-devel. No device attached to adb. Repo not yet a git repository.
+- 2026-10-17: Tauri prerequisites, rpm-build 6.0.2, dpkg 1.23.7, fakeroot 1.37.1 installed by user. `git init` on `main`; bootstrap commit 243a326.
+- 2026-10-17: Throwaway Tauri 2 React-TS app: `pnpm tauri build --no-bundle` succeeded in 5m00s (release). Binary launched, GTK initialised (theme CSS warnings only), stayed running 5 s, then terminated.
+- 2026-10-17: Throwaway Expo SDK 58 / React Native 0.88 app with `expo-dev-client`: first `expo run:android` stalled 45 min while Gradle auto-downloaded NDK 27.1.12297006 (stuck at 138 MB). Build stopped; NDK installed via `sdkmanager` instead. Found `ndk/30.0.16138531` is empty.
 
 ---
 
@@ -365,5 +368,5 @@ Excluded from this track. Architecture must not preclude them.
 | ID | Blocker | Impact | Status |
 | --- | --- | --- | --- |
 | B1 | No macOS/Xcode host | iOS binding path (plan §4.5) and iOS/macOS builds unverified | Open: deferred |
-| B2 | No Android device attached yet | Phase 0 exit gate and all real-device work | Open |
+| B2 | No Android device attached yet | Phase 0 exit gate and all real-device work | Resolved 2026-10-17 (SM-A366B) |
 | B3 | Second device for Android ↔ Android and Linux ↔ Linux not confirmed | Phase 2 item 4.5a, Phase 7 matrix | Open |
