@@ -64,14 +64,14 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 - [x] `ANDROID_HOME` / `ANDROID_SDK_ROOT` and `JAVA_HOME` exported in `~/.bashrc`; pnpm added to `~/.profile` for login shells
 - [x] Tauri Linux prerequisites installed: `webkit2gtk4.1-devel`, `libappindicator-gtk3-devel`, `librsvg2-devel`, `openssl-devel`
 - [x] `rpm-build`, `dpkg` and `fakeroot` installed for `.rpm`/`.deb` bundling
-- [ ] Rust components: `rustfmt`, `clippy`; Android Rust targets only if the mobile native module uses Rust (decided in Phase 2)
+- [x] Rust components: `rustfmt` 1.9.0, `clippy` 0.1.97; Android Rust targets only if the mobile native module uses Rust (decided in Phase 2)
 - [ ] `cargo install tauri-cli` (or use `@tauri-apps/cli` via pnpm) at a pinned version
 
 ### Devices
 
 - [x] Physical Android phone in developer mode, USB debugging enabled, visible in `adb devices` (Samsung SM-A366B, serial RZCY504DDXT)
 - [ ] Second Android device (physical preferred) available for Android ↔ Android tests
-- [ ] Phone and host on the same Wi-Fi with no client isolation; host firewall rule documented for the listener port
+- [ ] Phone and host on the same Wi-Fi with no client isolation; host firewall rule documented for the listener port (host zone `FedoraWorkstation` allows TCP/UDP 1025–65535 by default; verify in Phase 2)
 
 ### Repository bootstrap
 
@@ -84,9 +84,9 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 
 ### Exit gate
 
-- [ ] `pnpm`, `cargo`, `adb` and `java` all work from a non-login shell
+- [x] `pnpm`, `cargo`, `adb` and `java` all work from a non-login shell
 - [x] A throwaway `create-tauri-app` builds and opens a window on the host. Window visibility pending user visual confirmation; scratch app removed at end of Phase 0.
-- [ ] A throwaway Expo development build installs and runs on the physical phone (then deleted)
+- [x] A throwaway Expo development build installs and runs on the physical phone (scratch app removed at end of Phase 0)
 - [x] First commit pushed and CI skeleton passes
 
 ### Evidence log
@@ -96,6 +96,9 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 - 2026-10-17: Throwaway Tauri 2 React-TS app: `pnpm tauri build --no-bundle` succeeded in 5m00s (release). Binary launched, GTK initialised (theme CSS warnings only), stayed running 5 s, then terminated.
 - 2026-10-17: Throwaway Expo SDK 58 / React Native 0.88 app with `expo-dev-client`: first `expo run:android` stalled 45 min while Gradle auto-downloaded NDK 27.1.12297006 (stuck at 138 MB). Build stopped; NDK installed via `sdkmanager` instead (r27b, 2.0 GB). Found `ndk/30.0.16138531` is empty.
 - 2026-10-17: Remote added over SSH (Caff-Core); `main` and `chore/phase-0-setup` pushed. CI skeleton run on `main` succeeded.
+- 2026-10-17: Second `expo run:android` failed after 53m52s: `dl.google.com: Temporary failure in name resolution` (host DNS dropout while resolving `androidx.compose.runtime:runtime-annotation-android:1.10.5`). Gradle also auto-installed Build-Tools 37.0.0 and Platform 37.0.
+- 2026-10-17: `./gradlew app:assembleDebug -PreactNativeArchitectures=arm64-v8a` BUILD SUCCESSFUL in 14m42s (66 MB APK). `adb install` Success on SM-A366B; launched `com.mosessamo.exposmoke`, `DevLauncherActivity` resumed (pid 32424).
+- 2026-10-17: Phone drops off adb intermittently; `adb kill-server && adb start-server` restores it. Use arm64-only builds for local dev to cut build time.
 
 ---
 
