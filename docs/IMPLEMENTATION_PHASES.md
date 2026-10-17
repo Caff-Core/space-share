@@ -35,8 +35,8 @@ Tracks execution of [`FILE_SHARING_AGENT_PLAN.md`](./FILE_SHARING_AGENT_PLAN.md)
 | Phase | Name | Status |
 | --- | --- | --- |
 | 0 | Environment and repository setup | Exit gate passed (2 device/network items carried to Phase 2) |
-| 1 | M0: Inspect and document | In progress (awaiting review) |
-| 2 | M1: Feasibility spike | Not started |
+| 1 | M0: Inspect and document | Complete |
+| 2 | M1: Feasibility spike | In progress |
 | 3 | M2: Monorepo foundation | Not started |
 | 4 | M3: One secure file | Not started |
 | 5 | M4: Batches and failures | Not started |
@@ -116,7 +116,7 @@ Goal: pinned versions, documented defaults and a protocol outline before any cod
 ### Exit gate
 
 - [x] Versions pinned and recorded
-- [ ] Architecture and protocol outline reviewed and committed
+- [x] Architecture and protocol outline reviewed and committed (approved by user 2026-10-17)
 
 ### Evidence log
 
