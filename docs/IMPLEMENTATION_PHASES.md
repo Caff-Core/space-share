@@ -59,7 +59,7 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 - [x] Rust toolchain installed (rustc 1.97.0, cargo 1.97.0)
 - [x] Java JDK installed (OpenJDK 21 and 25). `JAVA_HOME` set to JDK 21 for Android Gradle builds.
 - [x] Android SDK present (platforms 34, 35, 36.1; build-tools; cmdline-tools; emulator)
-- [ ] Android NDK 27.1.12297006 installed (pinned by React Native 0.88 / Expo SDK 58). Note: `ndk/30.0.16138531` exists but is an empty directory, not a usable install.
+- [x] Android NDK 27.1.12297006 installed (pinned by React Native 0.88 / Expo SDK 58). Note: `ndk/30.0.16138531` exists but is an empty directory, not a usable install.
 - [x] `adb` installed (1.0.41)
 - [x] `ANDROID_HOME` / `ANDROID_SDK_ROOT` and `JAVA_HOME` exported in `~/.bashrc`; pnpm added to `~/.profile` for login shells
 - [x] Tauri Linux prerequisites installed: `webkit2gtk4.1-devel`, `libappindicator-gtk3-devel`, `librsvg2-devel`, `openssl-devel`
@@ -76,25 +76,26 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 ### Repository bootstrap
 
 - [x] `git init`, `.gitignore` (node_modules, target, build outputs, `.env*`, keystores) (commit 243a326)
-- [ ] Remote repository created on GitHub (blocked: `gh` auth for account Caff-Core is invalid; run `gh auth login`)
+- [x] Remote repository created on GitHub: `git@github.com:Caff-Core/space-share.git` (SSH)
 - [x] Root `README.md` with project summary and link to the spec and this tracker
 - [x] `docs/platform-support.md` stub (plan §11.7)
 - [x] `docs/decisions/` folder with ADR template (`0000-template.md`)
-- [ ] CI skeleton workflow (checkout, pnpm install, placeholder job) running green on push (file committed; needs remote)
+- [x] CI skeleton workflow (checkout, pnpm install, placeholder job) running green on push ([run 39038191971](https://github.com/Caff-Core/space-share/actions/runs/39038191971))
 
 ### Exit gate
 
 - [ ] `pnpm`, `cargo`, `adb` and `java` all work from a non-login shell
 - [x] A throwaway `create-tauri-app` builds and opens a window on the host. Window visibility pending user visual confirmation; scratch app removed at end of Phase 0.
 - [ ] A throwaway Expo development build installs and runs on the physical phone (then deleted)
-- [ ] First commit pushed and CI skeleton passes
+- [x] First commit pushed and CI skeleton passes
 
 ### Evidence log
 
 - 2026-10-17: Toolchain inventory taken on Fedora 43 (Linux 7.2.6). Node 24.15.0, pnpm 12.14.0, Rust 1.97.0, OpenJDK 25.0.4.1, Android SDK + NDK 30.0.16138531, adb 1.0.41. Not installed: webkit2gtk4.1-devel, libappindicator-gtk3-devel, librsvg2-devel. No device attached to adb. Repo not yet a git repository.
 - 2026-10-17: Tauri prerequisites, rpm-build 6.0.2, dpkg 1.23.7, fakeroot 1.37.1 installed by user. `git init` on `main`; bootstrap commit 243a326.
 - 2026-10-17: Throwaway Tauri 2 React-TS app: `pnpm tauri build --no-bundle` succeeded in 5m00s (release). Binary launched, GTK initialised (theme CSS warnings only), stayed running 5 s, then terminated.
-- 2026-10-17: Throwaway Expo SDK 58 / React Native 0.88 app with `expo-dev-client`: first `expo run:android` stalled 45 min while Gradle auto-downloaded NDK 27.1.12297006 (stuck at 138 MB). Build stopped; NDK installed via `sdkmanager` instead. Found `ndk/30.0.16138531` is empty.
+- 2026-10-17: Throwaway Expo SDK 58 / React Native 0.88 app with `expo-dev-client`: first `expo run:android` stalled 45 min while Gradle auto-downloaded NDK 27.1.12297006 (stuck at 138 MB). Build stopped; NDK installed via `sdkmanager` instead (r27b, 2.0 GB). Found `ndk/30.0.16138531` is empty.
+- 2026-10-17: Remote added over SSH (Caff-Core); `main` and `chore/phase-0-setup` pushed. CI skeleton run on `main` succeeded.
 
 ---
 
