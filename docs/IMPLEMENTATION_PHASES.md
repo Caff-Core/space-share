@@ -34,7 +34,7 @@ Tracks execution of [`FILE_SHARING_AGENT_PLAN.md`](./FILE_SHARING_AGENT_PLAN.md)
 
 | Phase | Name | Status |
 | --- | --- | --- |
-| 0 | Environment and repository setup | In progress |
+| 0 | Environment and repository setup | Exit gate passed (2 device/network items carried to Phase 2) |
 | 1 | M0: Inspect and document | Not started |
 | 2 | M1: Feasibility spike | Not started |
 | 3 | M2: Monorepo foundation | Not started |
@@ -65,7 +65,7 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 - [x] Tauri Linux prerequisites installed: `webkit2gtk4.1-devel`, `libappindicator-gtk3-devel`, `librsvg2-devel`, `openssl-devel`
 - [x] `rpm-build`, `dpkg` and `fakeroot` installed for `.rpm`/`.deb` bundling
 - [x] Rust components: `rustfmt` 1.9.0, `clippy` 0.1.97; Android Rust targets only if the mobile native module uses Rust (decided in Phase 2)
-- [ ] `cargo install tauri-cli` (or use `@tauri-apps/cli` via pnpm) at a pinned version
+- [ ] `@tauri-apps/cli` pinned as a workspace devDependency (moved to Phase 3)
 
 ### Devices
 
