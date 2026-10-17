@@ -35,7 +35,7 @@ Tracks execution of [`FILE_SHARING_AGENT_PLAN.md`](./FILE_SHARING_AGENT_PLAN.md)
 | Phase | Name | Status |
 | --- | --- | --- |
 | 0 | Environment and repository setup | Exit gate passed (2 device/network items carried to Phase 2) |
-| 1 | M0: Inspect and document | Not started |
+| 1 | M0: Inspect and document | In progress (awaiting review) |
 | 2 | M1: Feasibility spike | Not started |
 | 3 | M2: Monorepo foundation | Not started |
 | 4 | M3: One secure file | Not started |
@@ -106,21 +106,23 @@ Goal: a host that can build the Tauri desktop app and an Expo Android developmen
 
 Goal: pinned versions, documented defaults and a protocol outline before any code (plan §9 M0).
 
-- [ ] Pin stable versions: Tauri 2.x, React, Vite, TypeScript, Expo SDK, React Native, Zod; record in ADR `0001-stack-versions.md`
-- [ ] Check Expo SDK monorepo + pnpm guidance (node-linker / hoisting requirements)
-- [ ] `docs/architecture.md`: process boundaries, native-owns-bytes rule, adapter command/event list (plan §5)
-- [ ] `docs/protocol-v1.md` outline: operations table, manifest fields, decimal-string sizes, version negotiation, limits (plan §6)
-- [ ] Central limits table drafted (manifest size, file count, filename length, rate, unauthenticated lifetime) (plan §7)
-- [ ] `docs/platform-support.md` populated with the target matrix for this track (Linux, Android) and deferred targets
+- [x] Pin stable versions: Tauri 2.x, React, Vite, TypeScript, Expo SDK, React Native, Zod; record in ADR [`0001-stack-versions.md`](decisions/0001-stack-versions.md)
+- [x] Check Expo SDK monorepo + pnpm guidance (isolated linker supported since SDK 54; Metro auto-config; one React/RN version; recorded in ADR 0001)
+- [x] [`docs/architecture.md`](architecture.md): process boundaries, native-owns-bytes rule, adapter command/event list (plan §5)
+- [x] [`docs/protocol-v1.md`](protocol-v1.md) outline: operations table, manifest fields, decimal-string sizes, version negotiation, limits (plan §6)
+- [x] Central limits table drafted (manifest size, file count, filename length, rate, unauthenticated lifetime) (plan §7; `protocol-v1.md` §7)
+- [x] `docs/platform-support.md` populated with the target matrix for this track (Linux, Android) and deferred targets
 
 ### Exit gate
 
-- [ ] Versions pinned and recorded
+- [x] Versions pinned and recorded
 - [ ] Architecture and protocol outline reviewed and committed
 
 ### Evidence log
 
-_None yet._
+- 2026-10-17: Versions queried from npm and crates.io; TypeScript held at 6.0.3 to match Expo SDK 58 (TS 7.0.2 available but not adopted). `rustls` pinned to 0.23.46 (0.24 is pre-release). ADR 0001 commit 72aa2d0.
+- 2026-10-17: Expo monorepo guide (modified 2026-10-16) read: pnpm isolated installs supported, Metro auto-configured, duplicate React/RN forbidden.
+- 2026-10-17: `architecture.md` (4783184) proposes a shared Rust engine (Option A, uniffi for Android) vs Kotlin engine (Option B), decided in Phase 2. `protocol-v1.md` outline (f1fa644) with 9 operations, limits and error codes.
 
 ---
 
